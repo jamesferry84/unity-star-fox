@@ -1,0 +1,632 @@
+fileFormatVersion: 2
+guid: 8809bb6213400f842aa2993306db0124
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1980038720767645250
+    second: fox-mugshot_0
+  - first:
+      213: 3590210035309070721
+    second: fox-mugshot_1
+  - first:
+      213: 1319034471687750120
+    second: fox-mugshot_2
+  - first:
+      213: -5062348980001481114
+    second: fox-mugshot_3
+  - first:
+      213: 2490420992680256240
+    second: fox-mugshot_4
+  - first:
+      213: 2400671229839500590
+    second: fox-mugshot_5
+  - first:
+      213: -6023680747790502847
+    second: fox-mugshot_6
+  - first:
+      213: -8256648753620559458
+    second: fox-mugshot_7
+  - first:
+      213: 2483308359960900598
+    second: fox-mugshot_8
+  - first:
+      213: -7144239383319006138
+    second: fox-mugshot_9
+  - first:
+      213: 5437025874099006217
+    second: fox-mugshot_10
+  - first:
+      213: -2252045229226877102
+    second: fox-mugshot_11
+  - first:
+      213: 3051760917924674865
+    second: fox-mugshot_12
+  - first:
+      213: -8816361187035250148
+    second: fox-mugshot_13
+  - first:
+      213: -6634812146538569704
+    second: fox-mugshot_14
+  - first:
+      213: -5374236136489906818
+    second: fox-mugshot_15
+  - first:
+      213: 5492784513884935565
+    second: fox-mugshot_16
+  - first:
+      213: 5402351782053211003
+    second: fox-mugshot_17
+  - first:
+      213: 7812187337091170682
+    second: fox-mugshot_18
+  - first:
+      213: -4679572581526004503
+    second: fox-mugshot_19
+  - first:
+      213: -1989570076928946128
+    second: fox-mugshot_20
+  - first:
+      213: -5523707700576656802
+    second: fox-mugshot_21
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fox-mugshot_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 246dfd0d9b28a7b10800000000000000
+      internalID: 1980038720767645250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_1
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 189c3af510df2d130800000000000000
+      internalID: 3590210035309070721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_2
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e1817b0dd62e4210800000000000000
+      internalID: 1319034471687750120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_3
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66e53f59c6ceeb9b0800000000000000
+      internalID: -5062348980001481114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_4
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f2e1e1b2b0cf8220800000000000000
+      internalID: 2490420992680256240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_5
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e256515a3c5e05120800000000000000
+      internalID: 2400671229839500590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_6
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14476935646976ca0800000000000000
+      internalID: -6023680747790502847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_7
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e99564544bd7a6d80800000000000000
+      internalID: -8256648753620559458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_8
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f33a37dbcb767220800000000000000
+      internalID: 2483308359960900598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_9
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6443ae6f1209adc90800000000000000
+      internalID: -7144239383319006138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_10
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 167
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90b6744d932347b40800000000000000
+      internalID: 5437025874099006217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25f91ddbbc02fb0e0800000000000000
+      internalID: -2252045229226877102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_12
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13df15cc2680a5a20800000000000000
+      internalID: 3051760917924674865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_13
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c120933263ef5a580800000000000000
+      internalID: -8816361187035250148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_14
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8102f1661896ce3a0800000000000000
+      internalID: -6634812146538569704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_15
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7d837135b0ea65b0800000000000000
+      internalID: -5374236136489906818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_16
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d85d0e1d96a4a3c40800000000000000
+      internalID: 5492784513884935565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_17
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7beaf8a25209fa40800000000000000
+      internalID: 5402351782053211003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_18
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a71cf1a0ef67a6c60800000000000000
+      internalID: 7812187337091170682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_19
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ec1c71d781de0fb0800000000000000
+      internalID: -4679572581526004503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_20
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03057e46e80a364e0800000000000000
+      internalID: -1989570076928946128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fox-mugshot_21
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1
+        width: 167
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e52e908bc19d753b0800000000000000
+      internalID: -5523707700576656802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 1195b9c58fe5d5148b17953b2dcfb9ed
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
