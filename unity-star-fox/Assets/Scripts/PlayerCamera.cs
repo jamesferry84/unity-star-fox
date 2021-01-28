@@ -14,7 +14,7 @@ public class PlayerCamera : MonoBehaviour
     public bool brakeCam = false;
     public bool boostCam = false;
     float cameraSpeed;
-    float defaultCameraSpeed = .02f;
+    [SerializeField] float defaultCameraSpeed = .1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,37 +30,37 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + myPlayer.GetCameraSpeed());
-        if (brakeCam)
-        {
-            if (vCam.m_Lens.FieldOfView >= brakeCamFovMin)
-            {
-                vCam.m_Lens.FieldOfView -= .2f;
-            }
-        }
-        else
-        {
-            if (vCam.m_Lens.FieldOfView <= standardFOV)
-            {
-                vCam.m_Lens.FieldOfView += .2f;
-            }
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        //if (brakeCam)
+        //{
+        //    if (vCam.m_Lens.FieldOfView >= brakeCamFovMin)
+        //    {
+        //        vCam.m_Lens.FieldOfView -= .2f;
+        //    }
+        //}
+        //else
+        //{
+        //    if (vCam.m_Lens.FieldOfView <= standardFOV)
+        //    {
+        //        vCam.m_Lens.FieldOfView += .2f;
+        //    }
 
 
-            if (boostCam)
-            {
-                if (vCam.m_Lens.FieldOfView <= boostCamFovMax)
-                {
-                    vCam.m_Lens.FieldOfView += .8f;
-                }
-            }
-            else
-            {
-                if (vCam.m_Lens.FieldOfView >= standardFOV)
-                {
-                    vCam.m_Lens.FieldOfView -= .6f;
-                }
-            }
-        }
+        //    if (boostCam)
+        //    {
+        //        if (vCam.m_Lens.FieldOfView <= boostCamFovMax)
+        //        {
+        //            vCam.m_Lens.FieldOfView += .8f;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (vCam.m_Lens.FieldOfView >= standardFOV)
+        //        {
+        //            vCam.m_Lens.FieldOfView -= .6f;
+        //        }
+        //    }
+        //}
     }
 
     public float GetCameraSpeed()

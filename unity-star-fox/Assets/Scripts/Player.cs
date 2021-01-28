@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private Transform playerModel;
     PlayerCamera playerCamera;
 
+    [SerializeField] bool toggleChargedShot = true;
+
     [SerializeField] float speed = 10f;
     [SerializeField] float maxSpeed = 30f;
     [SerializeField] float xRange = 6f;
@@ -20,8 +22,15 @@ public class Player : MonoBehaviour
     
     [SerializeField] float cameraSpeed = 1f;
 
-    [SerializeField] AudioSource singleLaserSound;
+    //Sounds
+    [SerializeField] AudioSource myAudioSource;
     [SerializeField] AudioClip laserSound;
+    [SerializeField] AudioClip arwingAmbientSound;
+    [SerializeField] AudioClip boostSound;
+    [SerializeField] AudioClip brakeSound;
+    [SerializeField] AudioClip itemCollect;
+    [SerializeField] AudioClip chargeLaserSound;
+    [SerializeField] AudioClip damageSound;
 
     [SerializeField] ParticleSystem[] guns;
     [SerializeField] ParticleSystem barrelRoll;
@@ -37,6 +46,8 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject chargedReticule;
     [SerializeField] GameObject targetLockedReticule;
     [SerializeField] ChargedProjectile chargedProjectile;
+
+    [SerializeField] ChargedRectile chargedRectileObject;
 
     bool targetLocked = false;
 
@@ -55,7 +66,7 @@ public class Player : MonoBehaviour
     float timeOfFirstButton;
 
     float chargeLaserTimer;
-    float holdChargeTimer = 1.5f;
+    float holdChargeTimer = 1f;
 
     bool laserCharged = false;
 
@@ -65,6 +76,10 @@ public class Player : MonoBehaviour
         playerModel = transform;
         playerCamera = FindObjectOfType<PlayerCamera>();
         cameraSpeed = playerCamera.GetCameraSpeed();
+        //chargedRectileObject = GetComponent<ChargedRectile>();
+        //myAudioSource.loop = true;
+        //myAudioSource.clip = arwingAmbientSound;
+        //myAudioSource.Play();
     }
 
     // Update is called once per frame
@@ -89,6 +104,8 @@ public class Player : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButton("Jump"))
         {
+            boost.gameObject.SetActive(true);
+            boost.Play();
             playerCamera.BoostCamera();
             //cameraSpeed = 0.2f;
         } 
@@ -111,7 +128,7 @@ public class Player : MonoBehaviour
     IEnumerator ProcessShake()
     {
         playerCamera.Noise(amplitudeGain, frequencyGain);
-        transform.position = new Vector3(transform.position.x + 1f, transform.position.y + 3f, transform.position.z);
+        transform.position = new Vector3(transform.position.x + .3f, transform.position.y + 1f, transform.position.z);
         yield return new WaitForSeconds(0.5f);
         playerCamera.Noise(0, 0);
     }
@@ -121,6 +138,7 @@ public class Player : MonoBehaviour
         if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Walls"))
         {
             StartCoroutine("ProcessShake");
+            AudioSource.PlayClipAtPoint(damageSound,Camera.main.transform.position);
         }
         
     }
@@ -158,7 +176,7 @@ public class Player : MonoBehaviour
         {
             if (roll > maxRollRight)
             {
-                roll -= .7f;
+                roll -= 2.7f;
             }
            // horizontalInput += 0.5f;
         }
@@ -167,13 +185,12 @@ public class Player : MonoBehaviour
            //horizontalInput -= 0.5f;
             if (roll < maxRollLeft)
             {
-                roll += .7f;
+                roll += 2.7f;
             }
         }
         
 
         float xOffset = horizontalInput * speed * Time.deltaTime;
-        //float clampedSpeed = Mathf.Clamp(speed, 0, maxSpeed);
         float yOffset = verticalInput * speed * Time.deltaTime;
 
         float rawXPos = transform.localPosition.x + xOffset;
@@ -183,6 +200,95 @@ public class Player : MonoBehaviour
         float clampedYPos = Mathf.Clamp(rawYPos, -yRange, yRange);
 
         transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
+    }
+
+    
+
+    void ProcessFiring()
+    {
+        var chargedParticle = chargeLaser.GetComponent<ParticleSystem>();
+        var emissionModule = chargeLaser.GetComponent<ParticleSystem>().emission;
+        Vector3 targetCoords = new Vector3(0,0,0);
+       
+
+        if (CrossPlatformInputManager.GetButtonDown("Fire1") && !laserCharged)
+        {
+            //Debug.DrawRay(normalReticule.transform.position, transform.forward*100f, Color.red,2f);
+            chargeLaserTimer = Time.time;
+            SetGunsActive(true);
+            myAudioSource.PlayOneShot(laserSound);
+        }
+        else if (CrossPlatformInputManager.GetButton("Fire1"))
+        {
+            if (toggleChargedShot)
+            {
+                SetGunsActive(true);
+                if (Time.time - chargeLaserTimer > holdChargeTimer)
+                {
+                    if (!laserCharged)
+                    {
+                        myAudioSource.PlayOneShot(chargeLaserSound);
+                    }
+                    laserCharged = true;
+                    SetGunsActive(false);
+                    emissionModule.enabled = true;
+                    if (!targetLocked)
+                    {
+
+                        //myAudioSource.PlayOneShot(chargeLaserSound);
+                        chargedReticule.SetActive(true);
+                        normalReticule.SetActive(false);
+
+                    }
+
+                    //RaycastHit hit;
+                    //if (Physics.Raycast(normalReticule.transform.position, transform.forward, out hit, 100f, LayerMask.GetMask("Enemy")) && !targetLocked)
+                    //{
+                    //    Debug.DrawRay(transform.position, transform.forward, Color.green,10f); print("Hit");
+                    //    targetLocked = true;
+                    //    targetLockedReticule.transform.position = hit.transform.position;
+                    //    targetLockedReticule.SetActive(true);
+                    //    chargedReticule.SetActive(false);
+                    //    normalReticule.SetActive(true);
+                    //    Debug.Log("I hit: " + hit.transform.position);
+                    //    targetCoords = targetLockedReticule.transform.position;
+
+                    //}
+                }
+            }
+        }
+        else
+        {
+            SetGunsActive(false);
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Fire1") && Time.time - chargeLaserTimer > holdChargeTimer)
+        {
+           
+            chargedReticule.SetActive(false);
+            normalReticule.SetActive(true);
+
+            emissionModule.enabled = false;
+            if (targetLocked)
+                chargedRectileObject.Shoot();
+            laserCharged = false;
+            targetLocked = false;
+            //chargeLaserTimer = 0;
+        }
+    }
+
+    void SetGunsActive(bool activate)
+    {
+        foreach (var gun in guns)
+        {
+            var emissionModule = gun.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = activate;
+        }
+    }
+
+    public float GetCameraSpeed()
+    {
+        return cameraSpeed;
     }
 
     void SharpTurn()
@@ -208,93 +314,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void ProcessFiring()
-    {
-        var chargedParticle = chargeLaser.GetComponent<ParticleSystem>();
-        var emissionModule = chargeLaser.GetComponent<ParticleSystem>().emission;
-        Vector3 targetCoords = new Vector3(0,0,0);
-       
-
-        if (CrossPlatformInputManager.GetButtonDown("Fire1") && !laserCharged)
-        {
-            chargeLaserTimer = Time.time;
-            SetGunsActive(true);
-          //  singleLaserSound.PlayOneShot(laserSound);
-        }
-        else if (CrossPlatformInputManager.GetButton("Fire1"))
-        {
-            
-            SetGunsActive(true);
-       //     singleLaserSound.PlayOneShot(laserSound);
-            if (Time.time - chargeLaserTimer > holdChargeTimer)
-            {
-                laserCharged = true;
-                SetGunsActive(false);
-                emissionModule.enabled = true;
-                if (!targetLocked)
-                {
-                    chargedReticule.SetActive(true);
-                    normalReticule.SetActive(false);
-                }
-                
-                RaycastHit hit;
-                if (Physics.Raycast(normalReticule.transform.position, transform.forward, out hit, 100f) && !targetLocked)
-                {
-                    targetLocked = true;
-                    targetLockedReticule.transform.position = hit.transform.position;
-                    targetLockedReticule.SetActive(true);
-                    chargedReticule.SetActive(false);
-                    normalReticule.SetActive(true);
-                    Debug.Log("I hit: " + hit.transform.position);
-                    targetCoords = targetLockedReticule.transform.position;
-                    
-                }
-                
-
-            }
-        }
-        else
-        {
-            SetGunsActive(false);
-        }
-
-        if (CrossPlatformInputManager.GetButtonUp("Fire1") && Time.time - chargeLaserTimer > holdChargeTimer)
-        {
-            chargedReticule.SetActive(false);
-            normalReticule.SetActive(true);
-            targetLockedReticule.SetActive(false);
-
-            emissionModule.enabled = false;
-            ShootChargedProjectile(targetLockedReticule.transform.position);
-            laserCharged = false;
-            targetLocked = false;
-        }
-    }
-
-    void ShootChargedProjectile(Vector3 target)
-    {
-        Debug.Log("charged particle coords: " + target);
-        ChargedProjectile cp = Instantiate(
-            chargedProjectile, 
-            new Vector3(transform.position.x, transform.position.y, transform.position.z + 10f), 
-            transform.rotation);
-        cp.Shoot(target, transform.position);
-    }
-
-    void SetGunsActive(bool activate)
-    {
-        foreach (var gun in guns)
-        {
-            var emissionModule = gun.GetComponent<ParticleSystem>().emission;
-            emissionModule.enabled = activate;
-        }
-    }
-
-    public float GetCameraSpeed()
-    {
-        return cameraSpeed;
-    }
-
 
     void BarrelRollRight()
     {
@@ -302,9 +321,13 @@ public class Player : MonoBehaviour
         {
             if (Time.time - timeOfFirstButton < 0.2f)
             {
+  
                 if (!DOTween.IsTweening(playerModel))
                 {
+                   
                     transform.DOLocalRotate(new Vector3(pitch, yaw, -360), .4f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine);
+                    barrelRoll.gameObject.SetActive(true);
+                    barrelRoll.Play();
                 }
                 Debug.Log("DoubleClicked");
             }
@@ -324,6 +347,7 @@ public class Player : MonoBehaviour
 
         if (reset)
         {
+           // barrelRoll.gameObject.SetActive(false);
             firstButtonPressed = false;
             reset = false;
         }
@@ -338,6 +362,8 @@ public class Player : MonoBehaviour
                 if (!DOTween.IsTweening(playerModel))
                 {
                     transform.DOLocalRotate(new Vector3(pitch, yaw, 360), .4f, RotateMode.LocalAxisAdd).SetEase(Ease.OutSine);
+                    barrelRoll.gameObject.SetActive(true);
+                    barrelRoll.Play();
                 }
                 Debug.Log("DoubleClicked");
             }

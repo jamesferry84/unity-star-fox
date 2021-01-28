@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionFx;
+    [SerializeField] AudioClip explosionSfx;
     Color originalColor;
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Hit");
         Instantiate(explosionFx, transform.position, transform.rotation);
+        AudioSource.PlayClipAtPoint(explosionSfx, Camera.main.transform.position);
         Destroy(gameObject);
         //StartCoroutine("FlashHit");
     }
