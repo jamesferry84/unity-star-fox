@@ -40,10 +40,10 @@ public class ChargedRectile : MonoBehaviour
            chargedProjectile,
            new Vector3(transform.position.x, transform.position.y, transform.position.z + 10f),
            transform.rotation);
-        if (enemyTransform.position != null)
-            cp.Shoot(enemyTransform.position, transform.position);
+        if (enemyTransform != null)
+            cp.Shoot(enemyTransform.position, transform.position, true);
         else
-            cp.Shoot(new Vector3(0, 0, 0), transform.position);
+            cp.Shoot(Vector3.forward, transform.position, false);
     }
 
 

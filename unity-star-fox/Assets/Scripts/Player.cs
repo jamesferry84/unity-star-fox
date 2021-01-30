@@ -9,21 +9,26 @@ public class Player : MonoBehaviour
     private Transform playerModel;
     PlayerCamera playerCamera;
 
+    [Header("Player Attributes")]
     [SerializeField] bool toggleChargedShot = true;
-
     [SerializeField] float speed = 10f;
     [SerializeField] float forwardSpeed = .5f;
     [SerializeField] float maxSpeed = 30f;
     [SerializeField] float xRange = 6f;
     [SerializeField] float yRange = 5f;
-
     [SerializeField] float controlPitchFactor = -40f;
     [SerializeField] int steepTurnFactor = 2;
 
-    
-    [SerializeField] float cameraSpeed = 1f;
+    [Header("Particle Effects")]
+    [SerializeField] ParticleSystem[] guns;
+    [SerializeField] ParticleSystem barrelRoll;
+    [SerializeField] ParticleSystem brake;
+    [SerializeField] ParticleSystem boost;
+    [SerializeField] ParticleSystem trail;
+    [SerializeField] ParticleSystem chargeLaser;
+    [SerializeField] ParticleSystem afterBurner;
 
-    //Sounds
+    [Header("Sounds")]
     [SerializeField] AudioSource myAudioSource;
     [SerializeField] AudioClip laserSound;
     [SerializeField] AudioClip arwingAmbientSound;
@@ -33,28 +38,22 @@ public class Player : MonoBehaviour
     [SerializeField] AudioClip chargeLaserSound;
     [SerializeField] AudioClip damageSound;
 
-    [SerializeField] ParticleSystem[] guns;
-    [SerializeField] ParticleSystem barrelRoll;
-    [SerializeField] ParticleSystem brake;
-    [SerializeField] ParticleSystem boost;
-    [SerializeField] ParticleSystem trail;
-    [SerializeField] ParticleSystem chargeLaser;
-    [SerializeField] ParticleSystem afterBurner;
-
+    [Header("Camera Porperties")]
+    [SerializeField] float cameraSpeed = 1f;
     [SerializeField] float frequencyGain = 10f;
     [SerializeField] float amplitudeGain = 10f;
 
+    [Header("GameObjects")]
     [SerializeField] GameObject normalReticule;
     [SerializeField] GameObject chargedReticule;
     [SerializeField] GameObject targetLockedReticule;
-    [SerializeField] ChargedProjectile chargedProjectile;
-
+    [SerializeField] GameObject chargedProjectile;
     [SerializeField] ChargedRectile chargedRectileObject;
 
     SpriteRenderer SmallAimReticuleRenderer;
 
-    [SerializeField] Score score;
-    [SerializeField] Boost boostUi;
+    Score score;
+    Boost boostUi;
 
     bool targetLocked = false;
     bool isBoosting = false;
@@ -67,6 +66,7 @@ public class Player : MonoBehaviour
     float maxRollRight = -90f;
 
     bool sharpBank = false;
+    bool isRollReturningToZero = false;
     float pitch;
     float yaw;
     float roll;
@@ -79,23 +79,20 @@ public class Player : MonoBehaviour
 
     bool laserCharged = false;
 
-    // Start is called before the first frame update
+    ParticleSystem[] chargedParticleEffects;
+
     void Start()
     {
         SmallAimReticuleRenderer = normalReticule.GetComponent<SpriteRenderer>();
         playerModel = transform;
         playerCamera = FindObjectOfType<PlayerCamera>();
+        chargedParticleEffects = chargedProjectile.GetComponents<ParticleSystem>();
 
         boostUi = FindObjectOfType<Boost>();
-        
-       // cameraSpeed = playerCamera.GetCameraSpeed();
-        //chargedRectileObject = GetComponent<ChargedRectile>();
-        //myAudioSource.loop = true;
-        //myAudioSource.clip = arwingAmbientSound;
-        //myAudioSource.Play();
+        score = FindObjectOfType<Score>();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal");
@@ -110,7 +107,7 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButton("Jump"))
         {
-            isBoosting = true; 
+            isBoosting = true;
         }
 
         if (CrossPlatformInputManager.GetButtonUp("Jump"))
@@ -128,19 +125,26 @@ public class Player : MonoBehaviour
             isBraking = false;
             afterBurner.gameObject.SetActive(true);
         }
+
+        if (CrossPlatformInputManager.GetButton("Fire2") || CrossPlatformInputManager.GetButton("Fire3"))
+        {
+            int dir = Input.GetButton("Fire2") ? -1 : 1;
+            isRollReturningToZero = false;
+            Rotate90Degrees(dir);
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Fire2") || CrossPlatformInputManager.GetButtonUp("Fire3"))
+        {
+            isRollReturningToZero = true;
+        }
+        ReturnRollToZero();
         ApplyBoost();
         BarrelRollRight();
         BarrelRollLeft();
-        SharpTurn();
         Controls(horizontalInput, verticalInput);
         ProcessRotation();
-        RotationLookForGuns(horizontalInput,verticalInput, speed);
+        RotationLookForGuns(horizontalInput, verticalInput, speed);
         ProcessFiring();
-        //Vector3 pos = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z + cameraSpeed));
-        //pos.x = Mathf.Clamp01(pos.x);
-        //pos.y = Mathf.Clamp01(pos.y);
-        //transform.position = Camera.main.ViewportToWorldPoint(pos);
-       // cameraSpeed = playerCamera.GetCameraSpeed();
     }
 
     void RotationLookForGuns(float h, float v, float speed)
@@ -156,13 +160,6 @@ public class Player : MonoBehaviour
             centerOfReticule.y,
             centerOfReticule.z
             ));
-        //foreach (var gun in guns)
-        //{
-        //   // gun.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(normalReticule.transform.position), Mathf.Deg2Rad * speed * Time.deltaTime);
-        //    gun.transform.LookAt(normalReticule.transform.position);
-        //}
-        //normalReticule.transform.position = Vector3.zero;
-        //aimTarget.localPosition = new Vector3(h, v, 1);
 
     }
 
@@ -177,9 +174,11 @@ public class Player : MonoBehaviour
         if (isBoosting)
         {
             boostUi.UpdateBoostAmount(-0.3f);
+            forwardSpeed = forwardSpeed * 3;
         }
         else
         {
+            forwardSpeed = .5f;
             boostUi.UpdateBoostAmount(0.1f);
         }
        
@@ -189,12 +188,14 @@ public class Player : MonoBehaviour
     {
         if (isBraking)
         {
+            forwardSpeed = forwardSpeed / 3;
             boostUi.UpdateBoostAmount(-0.3f);
             afterBurner.gameObject.SetActive(false);
             //playerCamera.BrakeCamera();
         }
         else
         {
+            forwardSpeed = .5f;
             boostUi.UpdateBoostAmount(0.1f);
         }
     }
@@ -221,18 +222,10 @@ public class Player : MonoBehaviour
 
     void ProcessRotation()
     {
-        //Debug.Log(verticalInput); down is negative 1. up is 1
-        //if (transform.localPosition.y <= -yRange && verticalInput <= 0)
-        //{
-        //    pitch = verticalInput * -20;
-        //}
-        //else
-        //{
-            pitch = verticalInput * controlPitchFactor; // down is positive, up negative
-        //}
-       
+
+        pitch = verticalInput * controlPitchFactor; // down is positive, up negative
         yaw = horizontalInput * controlPitchFactor * -1;
-        if (!sharpBank )
+        if (!sharpBank)
         {
             Mathf.Clamp(roll = horizontalInput * controlPitchFactor, maxRollRight, maxRollLeft); // left is positive, right negative
         }
@@ -242,37 +235,57 @@ public class Player : MonoBehaviour
 
     void Controls(float h, float v)
     {
+        transform.localPosition += new Vector3(h, v, forwardSpeed) * speed * Time.deltaTime;
+        ClampPosition();
+    }
 
-        if (CrossPlatformInputManager.GetButton("Fire2"))
+    void Rotate90Degrees(int dir)
+    {
+        sharpBank = true;
+        if (dir < 0)
         {
             if (roll > maxRollRight)
             {
-                roll -= 2.7f;
+                roll -= 1.7f;
             }
-           // horizontalInput += 0.5f;
         }
-        else if (CrossPlatformInputManager.GetButton("Fire3"))
+        else
         {
-           //horizontalInput -= 0.5f;
             if (roll < maxRollLeft)
             {
-                roll += 2.7f;
+                roll += 1.7f;
             }
         }
+       
+        // horizontalInput += 0.5f;
+    }
 
-
-        //float xOffset = horizontalInput * speed * Time.deltaTime;
-        //float yOffset = verticalInput * speed * Time.deltaTime;
-
-        //float rawXPos = transform.localPosition.x + xOffset;
-        //float clampedXPos = Mathf.Clamp(rawXPos, -xRange, xRange);
-
-        //float rawYPos = transform.localPosition.y + yOffset;
-        //float clampedYPos = Mathf.Clamp(rawYPos, -yRange, yRange);
-
-        //transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
-        transform.localPosition += new Vector3(h, v, forwardSpeed) * speed * Time.deltaTime;
-        ClampPosition();
+    void ReturnRollToZero()
+    {
+        if (isRollReturningToZero)
+        {
+            print(roll);
+            if (Mathf.Abs(roll) <= Mathf.Epsilon)
+            {
+                isRollReturningToZero = false;
+                sharpBank = false;
+            }
+               
+            if ( (roll - 1f) > 0)
+            {
+                roll -= 1f;
+            }
+            else if ((roll + 1f) < 0)
+            {
+                roll += 1f;
+            }
+            else
+            {
+                isRollReturningToZero = false;
+                sharpBank = false;
+            }
+        }
+        
     }
 
     void ClampPosition()
@@ -288,15 +301,13 @@ public class Player : MonoBehaviour
     void ProcessFiring()
     {
        
-        var chargedParticle = chargeLaser.GetComponent<ParticleSystem>();
-        var emissionModule = chargeLaser.GetComponent<ParticleSystem>().emission;
+        //var chargedParticle = chargeLaser.GetComponent<ParticleSystem>();
+        //var emissionModule = chargeLaser.GetComponent<ParticleSystem>().emission;
         Vector3 targetCoords = new Vector3(0,0,0);
        
 
         if (CrossPlatformInputManager.GetButtonDown("Fire1") && !laserCharged)
         {
-            score.UpdateScore(1);
-            //Debug.DrawRay(normalReticule.transform.position, transform.forward*100f, Color.red,2f);
             chargeLaserTimer = Time.time;
             SetGunsActive(true);
             myAudioSource.PlayOneShot(laserSound);
@@ -314,29 +325,18 @@ public class Player : MonoBehaviour
                     }
                     laserCharged = true;
                     SetGunsActive(false);
-                    emissionModule.enabled = true;
+                    chargedProjectile.gameObject.SetActive(true);
+                    foreach(var chargeEffect in chargedParticleEffects)
+                    {
+                        chargeEffect.Play();
+                    }
+                    //emissionModule.enabled = true;
                     if (!targetLocked)
                     {
-
-                        //myAudioSource.PlayOneShot(chargeLaserSound);
                         chargedReticule.SetActive(true);
                         normalReticule.SetActive(false);
 
                     }
-
-                    //RaycastHit hit;
-                    //if (Physics.Raycast(normalReticule.transform.position, transform.forward, out hit, 100f, LayerMask.GetMask("Enemy")) && !targetLocked)
-                    //{
-                    //    Debug.DrawRay(transform.position, transform.forward, Color.green,10f); print("Hit");
-                    //    targetLocked = true;
-                    //    targetLockedReticule.transform.position = hit.transform.position;
-                    //    targetLockedReticule.SetActive(true);
-                    //    chargedReticule.SetActive(false);
-                    //    normalReticule.SetActive(true);
-                    //    Debug.Log("I hit: " + hit.transform.position);
-                    //    targetCoords = targetLockedReticule.transform.position;
-
-                    //}
                 }
             }
         }
@@ -350,10 +350,11 @@ public class Player : MonoBehaviour
            
             chargedReticule.SetActive(false);
             normalReticule.SetActive(true);
+            chargedProjectile.gameObject.SetActive(false);
 
-            emissionModule.enabled = false;
-            if (targetLocked)
-                chargedRectileObject.Shoot();
+            //emissionModule.enabled = false;
+            //if (targetLocked)
+            chargedRectileObject.Shoot();
             laserCharged = false;
             targetLocked = false;
             //chargeLaserTimer = 0;
@@ -374,28 +375,7 @@ public class Player : MonoBehaviour
         return cameraSpeed;
     }
 
-    void SharpTurn()
-    {
-        if (CrossPlatformInputManager.GetButton("Fire2"))
-        {
-            sharpBank = true;
-        }
-
-        if (CrossPlatformInputManager.GetButton("Fire3"))
-        {
-            sharpBank = true;
-        }
-
-        if (CrossPlatformInputManager.GetButtonUp("Fire2"))
-        {
-            sharpBank = false;
-        }
-
-        if (CrossPlatformInputManager.GetButtonUp("Fire3"))
-        {
-            sharpBank = false;
-        }
-    }
+    
 
 
     void BarrelRollRight()
