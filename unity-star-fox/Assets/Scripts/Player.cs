@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool toggleChargedShot = true;
 
     [SerializeField] float speed = 10f;
+    [SerializeField] float forwardSpeed = .5f;
     [SerializeField] float maxSpeed = 30f;
     [SerializeField] float xRange = 6f;
     [SerializeField] float yRange = 5f;
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
     [SerializeField] ParticleSystem boost;
     [SerializeField] ParticleSystem trail;
     [SerializeField] ParticleSystem chargeLaser;
+    [SerializeField] ParticleSystem afterBurner;
 
     [SerializeField] float frequencyGain = 10f;
     [SerializeField] float amplitudeGain = 10f;
@@ -49,9 +51,16 @@ public class Player : MonoBehaviour
 
     [SerializeField] ChargedRectile chargedRectileObject;
 
-    bool targetLocked = false;
+    SpriteRenderer SmallAimReticuleRenderer;
 
-  
+    [SerializeField] Score score;
+    [SerializeField] Boost boostUi;
+
+    bool targetLocked = false;
+    bool isBoosting = false;
+    bool isBraking = false;
+
+
     float horizontalInput, verticalInput;
 
     float maxRollLeft = 90f;
@@ -73,9 +82,13 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SmallAimReticuleRenderer = normalReticule.GetComponent<SpriteRenderer>();
         playerModel = transform;
         playerCamera = FindObjectOfType<PlayerCamera>();
-        cameraSpeed = playerCamera.GetCameraSpeed();
+
+        boostUi = FindObjectOfType<Boost>();
+        
+       // cameraSpeed = playerCamera.GetCameraSpeed();
         //chargedRectileObject = GetComponent<ChargedRectile>();
         //myAudioSource.loop = true;
         //myAudioSource.clip = arwingAmbientSound;
@@ -85,43 +98,104 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal");
+        verticalInput = CrossPlatformInputManager.GetAxis("Vertical");
         Brake();
+
+        if (CrossPlatformInputManager.GetButtonDown("Jump"))
+        {
+            boost.gameObject.SetActive(true);
+            boost.Play();
+        }
+
+        if (CrossPlatformInputManager.GetButton("Jump"))
+        {
+            isBoosting = true; 
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Jump"))
+        {
+            isBoosting = false;
+        }
+
+        if (CrossPlatformInputManager.GetButtonDown("Brake"))
+        {
+            isBraking = true;
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Brake"))
+        {
+            isBraking = false;
+            afterBurner.gameObject.SetActive(true);
+        }
         ApplyBoost();
         BarrelRollRight();
         BarrelRollLeft();
         SharpTurn();
-        Controls();
+        Controls(horizontalInput, verticalInput);
         ProcessRotation();
+        RotationLookForGuns(horizontalInput,verticalInput, speed);
         ProcessFiring();
-        Vector3 pos = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z + cameraSpeed));
-        pos.x = Mathf.Clamp01(pos.x);
-        pos.y = Mathf.Clamp01(pos.y);
-        transform.position = Camera.main.ViewportToWorldPoint(pos);
-        cameraSpeed = playerCamera.GetCameraSpeed();
+        //Vector3 pos = Camera.main.WorldToViewportPoint(new Vector3(transform.position.x, transform.position.y, transform.position.z + cameraSpeed));
+        //pos.x = Mathf.Clamp01(pos.x);
+        //pos.y = Mathf.Clamp01(pos.y);
+        //transform.position = Camera.main.ViewportToWorldPoint(pos);
+       // cameraSpeed = playerCamera.GetCameraSpeed();
+    }
+
+    void RotationLookForGuns(float h, float v, float speed)
+    {
+        var centerOfReticule = SmallAimReticuleRenderer.bounds.center;
+        guns[0].transform.LookAt(new Vector3(
+           centerOfReticule.x - 0.9f,
+           centerOfReticule.y,
+           centerOfReticule.z
+           ));
+        guns[1].transform.LookAt(new Vector3(
+            centerOfReticule.x + 0.9f,
+            centerOfReticule.y,
+            centerOfReticule.z
+            ));
+        //foreach (var gun in guns)
+        //{
+        //   // gun.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(normalReticule.transform.position), Mathf.Deg2Rad * speed * Time.deltaTime);
+        //    gun.transform.LookAt(normalReticule.transform.position);
+        //}
+        //normalReticule.transform.position = Vector3.zero;
+        //aimTarget.localPosition = new Vector3(h, v, 1);
+
+    }
+
+    void HorizontalLean(Transform target, float axis, float leanLimit, float lerpTime)
+    {
+        Vector3 targetEulerAngels = target.localEulerAngles;
+        target.localEulerAngles = new Vector3(targetEulerAngels.x, targetEulerAngels.y, Mathf.LerpAngle(targetEulerAngels.z, -axis * leanLimit, lerpTime));
     }
 
     void ApplyBoost()
     {
-        if (CrossPlatformInputManager.GetButton("Jump"))
+        if (isBoosting)
         {
-            boost.gameObject.SetActive(true);
-            boost.Play();
-            playerCamera.BoostCamera();
-            //cameraSpeed = 0.2f;
-        } 
+            boostUi.UpdateBoostAmount(-0.3f);
+        }
         else
         {
-            //cameraSpeed = 0.01f;
+            boostUi.UpdateBoostAmount(0.1f);
         }
+       
     }
 
     void Brake()
     {
-        if (CrossPlatformInputManager.GetButtonDown("Brake"))
+        if (isBraking)
         {
-            Debug.Log("Brake");
-            cameraSpeed = cameraSpeed / 2;
-            playerCamera.BrakeCamera();
+            boostUi.UpdateBoostAmount(-0.3f);
+            afterBurner.gameObject.SetActive(false);
+            //playerCamera.BrakeCamera();
+        }
+        else
+        {
+            boostUi.UpdateBoostAmount(0.1f);
         }
     }
 
@@ -158,19 +232,16 @@ public class Player : MonoBehaviour
         //}
        
         yaw = horizontalInput * controlPitchFactor * -1;
-        if (!sharpBank && !barrelRoll)
+        if (!sharpBank )
         {
             Mathf.Clamp(roll = horizontalInput * controlPitchFactor, maxRollRight, maxRollLeft); // left is positive, right negative
         }
- 
+
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll); ; //pitch, yaw, roll
     }
 
-    void Controls()
+    void Controls(float h, float v)
     {
-
-        horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal");
-        verticalInput = CrossPlatformInputManager.GetAxis("Vertical");
 
         if (CrossPlatformInputManager.GetButton("Fire2"))
         {
@@ -188,24 +259,35 @@ public class Player : MonoBehaviour
                 roll += 2.7f;
             }
         }
-        
 
-        float xOffset = horizontalInput * speed * Time.deltaTime;
-        float yOffset = verticalInput * speed * Time.deltaTime;
 
-        float rawXPos = transform.localPosition.x + xOffset;
-        float clampedXPos = Mathf.Clamp(rawXPos, -xRange, xRange);
+        //float xOffset = horizontalInput * speed * Time.deltaTime;
+        //float yOffset = verticalInput * speed * Time.deltaTime;
 
-        float rawYPos = transform.localPosition.y + yOffset;
-        float clampedYPos = Mathf.Clamp(rawYPos, -yRange, yRange);
+        //float rawXPos = transform.localPosition.x + xOffset;
+        //float clampedXPos = Mathf.Clamp(rawXPos, -xRange, xRange);
 
-        transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
+        //float rawYPos = transform.localPosition.y + yOffset;
+        //float clampedYPos = Mathf.Clamp(rawYPos, -yRange, yRange);
+
+        //transform.localPosition = new Vector3(clampedXPos, clampedYPos, transform.localPosition.z);
+        transform.localPosition += new Vector3(h, v, forwardSpeed) * speed * Time.deltaTime;
+        ClampPosition();
     }
 
-    
+    void ClampPosition()
+    {
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp01(pos.x);
+        pos.y = Mathf.Clamp01(pos.y);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
+    }
+
+
 
     void ProcessFiring()
     {
+       
         var chargedParticle = chargeLaser.GetComponent<ParticleSystem>();
         var emissionModule = chargeLaser.GetComponent<ParticleSystem>().emission;
         Vector3 targetCoords = new Vector3(0,0,0);
@@ -213,6 +295,7 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Fire1") && !laserCharged)
         {
+            score.UpdateScore(1);
             //Debug.DrawRay(normalReticule.transform.position, transform.forward*100f, Color.red,2f);
             chargeLaserTimer = Time.time;
             SetGunsActive(true);

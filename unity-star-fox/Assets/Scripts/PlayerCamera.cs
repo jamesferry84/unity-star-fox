@@ -14,7 +14,31 @@ public class PlayerCamera : MonoBehaviour
     public bool brakeCam = false;
     public bool boostCam = false;
     float cameraSpeed;
-    [SerializeField] float defaultCameraSpeed = .1f;
+    
+
+    [Header("Target")]
+    public Transform target;
+
+    [Space]
+
+    [Header("Offset")]
+    public Vector3 offset = Vector3.zero;
+    public float distanceFromPlayer = 9f;
+
+    [Space]
+
+    [Header("Limits")]
+    public Vector2 limits = new Vector2(5, 3);
+
+    [Space]
+
+    [Header("Smooth damp time")]
+    [Range(0, 1)]
+    public float smoothTime;
+
+    private Vector3 velocity = Vector3.zero;
+
+    [SerializeField] float defaultCameraSpeed = 1.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,44 +47,28 @@ public class PlayerCamera : MonoBehaviour
         vCam = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
         noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         //standardFOV = vCam.m_Lens.FieldOfView;
-        Debug.Log("vcam = " + vCam);
-        Debug.Log("noise = " + noise);
+
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
+        if (!Application.isPlaying)
+        {
+            transform.localPosition = offset;
+        }
+
+        FollowTarget(target);
+
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        //if (brakeCam)
-        //{
-        //    if (vCam.m_Lens.FieldOfView >= brakeCamFovMin)
-        //    {
-        //        vCam.m_Lens.FieldOfView -= .2f;
-        //    }
-        //}
-        //else
-        //{
-        //    if (vCam.m_Lens.FieldOfView <= standardFOV)
-        //    {
-        //        vCam.m_Lens.FieldOfView += .2f;
-        //    }
+       
+    }
 
-
-        //    if (boostCam)
-        //    {
-        //        if (vCam.m_Lens.FieldOfView <= boostCamFovMax)
-        //        {
-        //            vCam.m_Lens.FieldOfView += .8f;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (vCam.m_Lens.FieldOfView >= standardFOV)
-        //        {
-        //            vCam.m_Lens.FieldOfView -= .6f;
-        //        }
-        //    }
-        //}
+    public void FollowTarget(Transform t)
+    {
+        Vector3 localPos = transform.localPosition;
+        Vector3 targetLocalPos = t.transform.localPosition;
+        transform.localPosition = Vector3.SmoothDamp(localPos, new Vector3(targetLocalPos.x + offset.x, targetLocalPos.y + offset.y, targetLocalPos.z - distanceFromPlayer ), ref velocity, smoothTime);
     }
 
     public float GetCameraSpeed()
@@ -105,4 +113,36 @@ public class PlayerCamera : MonoBehaviour
         brakeCam = false;
        // ReturnFieldOfView();
     }
+
+
+    //if (brakeCam)
+    //{
+    //    if (vCam.m_Lens.FieldOfView >= brakeCamFovMin)
+    //    {
+    //        vCam.m_Lens.FieldOfView -= .2f;
+    //    }
+    //}
+    //else
+    //{
+    //    if (vCam.m_Lens.FieldOfView <= standardFOV)
+    //    {
+    //        vCam.m_Lens.FieldOfView += .2f;
+    //    }
+
+
+    //    if (boostCam)
+    //    {
+    //        if (vCam.m_Lens.FieldOfView <= boostCamFovMax)
+    //        {
+    //            vCam.m_Lens.FieldOfView += .8f;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (vCam.m_Lens.FieldOfView >= standardFOV)
+    //        {
+    //            vCam.m_Lens.FieldOfView -= .6f;
+    //        }
+    //    }
+    //}
 }
