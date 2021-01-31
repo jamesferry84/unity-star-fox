@@ -19,6 +19,11 @@ public class Boost : MonoBehaviour
         GetComponent<Slider>().value = boostAmount;
     }
 
+    public float GetBoostAmount()
+    {
+        return boostAmount;
+    }
+
     public void UpdateBoostAmount(float amount)
     {
         if ( (boostAmount + amount) <= 100f && (boostAmount + amount) >= Mathf.Epsilon )

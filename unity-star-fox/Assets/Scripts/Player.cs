@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [Header("Player Attributes")]
     [SerializeField] bool toggleChargedShot = true;
     [SerializeField] float speed = 10f;
+    [SerializeField] float standardForwardSpeed = .5f;
     [SerializeField] float forwardSpeed = .5f;
     [SerializeField] float maxSpeed = 30f;
     [SerializeField] float xRange = 6f;
@@ -109,8 +110,11 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
-            boost.gameObject.SetActive(true);
-            boost.Play();
+            if (boostUi.GetBoostAmount() >= 5f)
+            {
+                boost.gameObject.SetActive(true);
+                boost.Play();
+            }
         }
 
         if (CrossPlatformInputManager.GetButton("Jump"))
@@ -126,7 +130,10 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButton("Brake"))
         {
-            isBraking = true;
+            if (boostUi.GetBoostAmount() >= 5f)
+            {
+                isBraking = true;
+            }
         }
 
         if (CrossPlatformInputManager.GetButtonUp("Brake"))
@@ -150,7 +157,13 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Somersault"))
         {
-            myAnimator.SetTrigger("triggerSomersault");
+           
+            if (boostUi.GetBoostAmount() >= 98f)
+            {
+                forwardSpeed = 0f;
+                boostUi.UpdateBoostAmount(-98f);
+                myAnimator.SetTrigger("triggerSomersault");
+            }
         }
 
 
@@ -163,6 +176,11 @@ public class Player : MonoBehaviour
         ProcessRotation();
         RotationLookForGuns(horizontalInput, verticalInput, speed);
         ProcessFiring();
+    }
+
+    public void ResetForwardSpeed()
+    {
+        forwardSpeed = standardForwardSpeed;
     }
 
     void RotationLookForGuns(float h, float v, float speed)

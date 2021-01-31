@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionFx;
     [SerializeField] AudioClip explosionSfx;
+    Player player;
     Score score;
     Rigidbody myRigidbody;
     Color originalColor;
@@ -18,12 +19,15 @@ public class Enemy : MonoBehaviour
         score = FindObjectOfType<Score>();
         myRigidbody = GetComponent<Rigidbody>();
         myBoxCollider = GetComponent<BoxCollider>();
+        player = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //transform.LookAt(
+        //    new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z), Vector3.up
+        //    ); ;
     }
 
     public void KillEnemy()
