@@ -46,14 +46,17 @@ public class Player : MonoBehaviour
     [Header("GameObjects")]
     [SerializeField] GameObject normalReticule;
     [SerializeField] GameObject chargedReticule;
-    [SerializeField] GameObject targetLockedReticule;
     [SerializeField] GameObject chargedProjectile;
     [SerializeField] ChargedRectile chargedRectileObject;
 
     SpriteRenderer SmallAimReticuleRenderer;
 
+    Health playerHealth;
+
     Score score;
     Boost boostUi;
+    Color originalColor;
+    Animator myAnimator;
 
     bool targetLocked = false;
     bool isBoosting = false;
@@ -81,15 +84,20 @@ public class Player : MonoBehaviour
 
     ParticleSystem[] chargedParticleEffects;
 
+    Component[] renderers;
+
     void Start()
     {
         SmallAimReticuleRenderer = normalReticule.GetComponent<SpriteRenderer>();
         playerModel = transform;
         playerCamera = FindObjectOfType<PlayerCamera>();
         chargedParticleEffects = chargedProjectile.GetComponents<ParticleSystem>();
+        playerHealth = FindObjectOfType<Health>();
 
         boostUi = FindObjectOfType<Boost>();
         score = FindObjectOfType<Score>();
+        renderers = GetComponentsInChildren<MeshRenderer>();
+        myAnimator = GetComponent<Animator>();
 
     }
 
@@ -97,7 +105,7 @@ public class Player : MonoBehaviour
     {
         horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal");
         verticalInput = CrossPlatformInputManager.GetAxis("Vertical");
-        Brake();
+        
 
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
@@ -113,9 +121,10 @@ public class Player : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonUp("Jump"))
         {
             isBoosting = false;
+            forwardSpeed = 0.5f;
         }
 
-        if (CrossPlatformInputManager.GetButtonDown("Brake"))
+        if (CrossPlatformInputManager.GetButton("Brake"))
         {
             isBraking = true;
         }
@@ -123,6 +132,7 @@ public class Player : MonoBehaviour
         if (CrossPlatformInputManager.GetButtonUp("Brake"))
         {
             isBraking = false;
+            forwardSpeed = 0.5f;
             afterBurner.gameObject.SetActive(true);
         }
 
@@ -137,8 +147,16 @@ public class Player : MonoBehaviour
         {
             isRollReturningToZero = true;
         }
+
+        if (CrossPlatformInputManager.GetButtonDown("Somersault"))
+        {
+            myAnimator.SetTrigger("triggerSomersault");
+        }
+
+
         ReturnRollToZero();
         ApplyBoost();
+        Brake();
         BarrelRollRight();
         BarrelRollLeft();
         Controls(horizontalInput, verticalInput);
@@ -174,12 +192,16 @@ public class Player : MonoBehaviour
         if (isBoosting)
         {
             boostUi.UpdateBoostAmount(-0.3f);
-            forwardSpeed = forwardSpeed * 3;
+            forwardSpeed = 1.5f;
         }
         else
         {
-            forwardSpeed = .5f;
-            boostUi.UpdateBoostAmount(0.1f);
+            if (!isBraking)
+            {
+              //  forwardSpeed = .5f;
+                boostUi.UpdateBoostAmount(0.1f);
+            }
+          
         }
        
     }
@@ -188,15 +210,19 @@ public class Player : MonoBehaviour
     {
         if (isBraking)
         {
-            forwardSpeed = forwardSpeed / 3;
+            forwardSpeed = forwardSpeed = .1f;
             boostUi.UpdateBoostAmount(-0.3f);
             afterBurner.gameObject.SetActive(false);
             //playerCamera.BrakeCamera();
         }
         else
         {
-            forwardSpeed = .5f;
-            boostUi.UpdateBoostAmount(0.1f);
+            if (!isBoosting)
+            {
+               // forwardSpeed = .5f;
+                boostUi.UpdateBoostAmount(0.1f);
+            }
+            
         }
     }
 
@@ -208,17 +234,51 @@ public class Player : MonoBehaviour
         playerCamera.Noise(0, 0);
     }
 
+    IEnumerator ProcessHitShake()
+    {
+        playerCamera.Noise(amplitudeGain, frequencyGain);
+       // transform.position = new Vector3(transform.position.x + .3f, transform.position.y + 1f, transform.position.z);
+        yield return new WaitForSeconds(0.5f);
+        playerCamera.Noise(0, 0);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Walls"))
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Walls")
+             || collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             StartCoroutine("ProcessShake");
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                playerHealth.UpdateHealthAmount(10f);
+                var enemy = collision.gameObject.GetComponent<Enemy>() as Enemy;
+                enemy.KillEnemy();
+            }
             AudioSource.PlayClipAtPoint(damageSound,Camera.main.transform.position);
+
+            if (playerHealth.healthAmount <= 0)
+            {
+                PlayerDead();
+            }
         }
         
     }
 
-    
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            playerHealth.UpdateHealthAmount(10f);
+            StartCoroutine("ProcessHitShake");
+           // StartCoroutine("FlashHit");
+        }
+    }
+
+
+    void PlayerDead()
+    {
+
+    }
 
     void ProcessRotation()
     {
@@ -264,7 +324,6 @@ public class Player : MonoBehaviour
     {
         if (isRollReturningToZero)
         {
-            print(roll);
             if (Mathf.Abs(roll) <= Mathf.Epsilon)
             {
                 isRollReturningToZero = false;
@@ -449,6 +508,21 @@ public class Player : MonoBehaviour
             firstButtonPressed = false;
             reset = false;
         }
+    }
+
+    IEnumerator FlashHit()
+    {
+        print("inside");
+
+        //foreach(var render in renderers)
+        //{
+        //    print(render);
+        //   // render.GetComponent<MeshRenderer>().material.color = Color.red;
+        //}
+        GetComponent<MeshRenderer>().material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+       // GetComponent<MeshRenderer>().material.color = originalColor;
+        StopCoroutine("FlashHit");
     }
 
 }

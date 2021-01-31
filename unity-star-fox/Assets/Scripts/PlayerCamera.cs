@@ -44,7 +44,7 @@ public class PlayerCamera : MonoBehaviour
     {
         cameraSpeed = defaultCameraSpeed;
         myPlayer = FindObjectOfType<Player>();
-        vCam = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
+        vCam = GameObject.Find("Player Camera OnRails").GetComponent<CinemachineVirtualCamera>();
         noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         //standardFOV = vCam.m_Lens.FieldOfView;
 

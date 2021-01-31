@@ -8,6 +8,7 @@ public class ChargedRectile : MonoBehaviour
     public Transform enemyTransform;
     [SerializeField] GameObject targetLockedReticule;
     [SerializeField] ChargedProjectile chargedProjectile;
+    GameObject enemyObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class ChargedRectile : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !lockOn)
         {
             Debug.Log("Charged Rectile Targeted");
+            enemyObject = other.gameObject;
             enemyTransform = other.gameObject.transform;
             targetLockedReticule.transform.position = enemyTransform.position;
             targetLockedReticule.SetActive(true);
@@ -41,9 +43,9 @@ public class ChargedRectile : MonoBehaviour
            new Vector3(transform.position.x, transform.position.y, transform.position.z + 10f),
            transform.rotation);
         if (enemyTransform != null)
-            cp.Shoot(enemyTransform.position, transform.position, true);
+            cp.Shoot(enemyTransform.position, transform.position, true, enemyObject);
         else
-            cp.Shoot(Vector3.forward, transform.position, false);
+            cp.Shoot(Vector3.forward, transform.position, false, enemyObject);
     }
 
 
