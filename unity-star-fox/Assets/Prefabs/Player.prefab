@@ -936,22 +936,22 @@ PrefabInstance:
     - target: {fileID: 2890689460215877255, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}
       propertyPath: m_Size.z
-      value: 50.015575
+      value: 82.3247
       objectReference: {fileID: 0}
     - target: {fileID: 2890689460215877255, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}
       propertyPath: m_Center.x
-      value: -0.00000042089792
+      value: -0.00004164219
       objectReference: {fileID: 0}
     - target: {fileID: 2890689460215877255, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}
       propertyPath: m_Center.y
-      value: -0.000012736048
+      value: -0.000065852626
       objectReference: {fileID: 0}
     - target: {fileID: 2890689460215877255, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}
       propertyPath: m_Center.z
-      value: 24.90791
+      value: 41.063118
       objectReference: {fileID: 0}
     - target: {fileID: 2890689460215877255, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}
@@ -972,6 +972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: charged-reticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922405542169947877, guid: 3c4f06410514229438fa5fe860d0c45c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5922405542169947878, guid: 3c4f06410514229438fa5fe860d0c45c,
         type: 3}

@@ -7,15 +7,18 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionFx;
     [SerializeField] AudioClip explosionSfx;
+    [SerializeField] bool moveForwardAtAllTimes = false;
+    [SerializeField] float speed = 1f;
     Player player;
     Score score;
     Rigidbody myRigidbody;
     Color originalColor;
     BoxCollider myBoxCollider;
+    
     // Start is called before the first frame update
     void Start()
     {
-        originalColor = GetComponent<Renderer>().material.color;
+       // originalColor = GetComponent<Renderer>().material.color;
         score = FindObjectOfType<Score>();
         myRigidbody = GetComponent<Rigidbody>();
         myBoxCollider = GetComponent<BoxCollider>();
@@ -25,6 +28,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (moveForwardAtAllTimes)
+        {
+            transform.Translate(0, 0, speed * Time.deltaTime, Space.Self);
+        }
         //transform.LookAt(
         //    new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z), Vector3.up
         //    ); ;

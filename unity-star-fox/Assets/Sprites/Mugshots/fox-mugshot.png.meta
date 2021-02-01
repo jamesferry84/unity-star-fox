@@ -157,9 +157,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,9 +178,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 167
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,9 +199,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 334
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -220,9 +220,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 501
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,9 +241,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 668
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,9 +262,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 835
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -283,9 +283,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1002
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,9 +304,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1169
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -325,9 +325,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1336
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -346,9 +346,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1503
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -367,9 +367,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1670
-        y: 167
-        width: 167
-        height: 166
+        y: 166
+        width: 166
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -379,237 +379,6 @@ TextureImporter:
       bones: []
       spriteID: 90b6744d932347b40800000000000000
       internalID: 5437025874099006217
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_11
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25f91ddbbc02fb0e0800000000000000
-      internalID: -2252045229226877102
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_12
-      rect:
-        serializedVersion: 2
-        x: 167
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13df15cc2680a5a20800000000000000
-      internalID: 3051760917924674865
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_13
-      rect:
-        serializedVersion: 2
-        x: 334
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c120933263ef5a580800000000000000
-      internalID: -8816361187035250148
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_14
-      rect:
-        serializedVersion: 2
-        x: 501
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8102f1661896ce3a0800000000000000
-      internalID: -6634812146538569704
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_15
-      rect:
-        serializedVersion: 2
-        x: 668
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e7d837135b0ea65b0800000000000000
-      internalID: -5374236136489906818
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_16
-      rect:
-        serializedVersion: 2
-        x: 835
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d85d0e1d96a4a3c40800000000000000
-      internalID: 5492784513884935565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_17
-      rect:
-        serializedVersion: 2
-        x: 1002
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b7beaf8a25209fa40800000000000000
-      internalID: 5402351782053211003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_18
-      rect:
-        serializedVersion: 2
-        x: 1169
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a71cf1a0ef67a6c60800000000000000
-      internalID: 7812187337091170682
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_19
-      rect:
-        serializedVersion: 2
-        x: 1336
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ec1c71d781de0fb0800000000000000
-      internalID: -4679572581526004503
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_20
-      rect:
-        serializedVersion: 2
-        x: 1503
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 03057e46e80a364e0800000000000000
-      internalID: -1989570076928946128
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fox-mugshot_21
-      rect:
-        serializedVersion: 2
-        x: 1670
-        y: 1
-        width: 167
-        height: 166
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e52e908bc19d753b0800000000000000
-      internalID: -5523707700576656802
       vertices: []
       indices: 
       edges: []
